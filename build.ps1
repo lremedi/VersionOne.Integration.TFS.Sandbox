@@ -38,7 +38,7 @@ $script_path_step6 = 'Configure-TfsListener.ps1'
 #$boxstarterVM | Install-BoxstarterPackage -Package VisualStudio2013Professional -Credential $cred
 #$boxstarterVM | Install-BoxstarterPackage -Package git -Credential $cred
 #$boxstarterVM | Install-BoxstarterPackage -Package tfs2013powertools -Credential $cred
-
+Restart-AzureVM -ServiceName $azure_service_name -Name $vm_name
 Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step3"
 Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step4"
 Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step5"
