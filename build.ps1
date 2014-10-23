@@ -12,6 +12,9 @@ $new=$TRUE
 
 Write-Host "Starting execution at:"(Get-Date -Format g)
 
+$secpasswd = ConvertTo-SecureString $vm_password -AsPlainText -Force
+$cred=New-Object System.Management.Automation.PSCredential ($vm_username, $secpasswd)
+
 if ($new){
     $image_name = "sql2012exp-20140925-13769"
     Write-Host 'Removing previous VM'
