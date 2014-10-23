@@ -1,14 +1,10 @@
-$env:PSModulePath='C:\Users\_service\Documents\WindowsPowerShell\Modules;C:\Users\_service\AppData\Roaming\Boxstarter;C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules\;C:\Program Files (x86)\AWS Tools\PowerShell\;C:\Program Files (x86)\Microsoft SDKs\Azure\PowerShell\ServiceManagement'
-Import-Module Boxstarter.Azure
-
-(new-object Net.WebClient).DownloadString("http://psget.net/GetPsGet.ps1") | iex
-Install-Module -ModuleUrl https://raw.githubusercontent.com/lremedi/AzureInstanceTools/master/AzureInstanceTools.psm1 -update
-
-$vm_username="v1deploy"
-$vm_password="Versi0n1.c26nu"
-$vm_name = "vmtfs2013"
-$azure_service_name = "servicetfs2013"
-$new=$TRUE
+Param(
+[string]$vm_username,
+[string]$vm_password,
+[string]$vm_name,
+[string]$azure_service_name,
+[switch]$new
+)
 
 Write-Host "Starting execution at:"(Get-Date -Format g)
 
@@ -31,14 +27,18 @@ if ($new){
     Get-AzureVM -ServiceName $azure_service_name -Name $vm_name | Add-AzureEndpoint -Name "TfsListener" -Protocol "tcp" -PublicPort 9090 -LocalPort 9090 | Update-AzureVM
 }
 
-$script_path_step1 = 'Install-Tfs.ps1'
-$script_path_step2 = 'Install-Tools.ps1'
 $script_path_step3 = 'New-TeamProject.ps1'
 $script_path_step4 = 'New-SampleData.ps1'
 $script_path_step5 = 'Install-TfsListener.ps1'
 $script_path_step6 = 'Configure-TfsListener.ps1'
 
-Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step1"
+$boxstarterVM = Enable-BoxstarterVM -Provider azure -CloudServiceName $azure_service_name -VMName $vm_name -Credential $cred
+$boxstarterVM | Install-BoxstarterPackage -Package tfsexpress.standard -Credential $cred
+$boxstarterVM | Install-BoxstarterPackage -Package tfsexpress.build -Credential $cred
+$boxstarterVM | Install-BoxstarterPackage -Package VisualStudio2013Professional -Credential $cred
+$boxstarterVM | Install-BoxstarterPackage -Package git -Credential $cred
+$boxstarterVM | Install-BoxstarterPackage -Package tfs2013powertools -Credential $cred
+
 #Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step2"
 #Restart-AzureVM -ServiceName $azure_service_name -Name $vm_name 
 #Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step3"
