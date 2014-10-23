@@ -38,7 +38,7 @@ $boxstarterVM | Install-BoxstarterPackage -Package tfsexpress.build -Credential 
 $boxstarterVM | Install-BoxstarterPackage -Package VisualStudio2013Professional -Credential $cred
 $boxstarterVM | Install-BoxstarterPackage -Package git -Credential $cred
 $boxstarterVM | Install-BoxstarterPackage -Package tfs2013powertools -Credential $cred
-Write-Host "Restarting after tool installation..."
+Write-Host "Restarting VM after tool installation..."
 Restart-AzureVM -ServiceName $azure_service_name -Name $vm_name
 Write-Host "Setting sample data..."
 Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step1"
