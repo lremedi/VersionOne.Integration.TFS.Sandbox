@@ -1,14 +1,16 @@
-$tfs_team_project_collection = "http://localhost:8080/tfs"
-$tfs_team_project = "AnotherTeamProject"
-$tfs_build_name = "Another Build"
-$tfs_build_description = "Build description."
-$tfs_workspace = "AnotherWorkspace"
-$tfs_git_repository = "https://github.com/lremedi/Automation.Tfs"
+param (
+    $tfs_team_project_collection = "http://localhost:8080/tfs",
+    $tfs_team_project = "AnotherTeamProject",
+    $tfs_build_name = "Another Build",
+    $tfs_build_description = "Build description.",
+    $tfs_workspace = "AnotherWorkspace",
+    $tfs_git_repository = "https://github.com/lremedi/Automation.Tfs",
+    $tfs_automation_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/installers/Automation.Tfs.exe"
+)
 
 $tfs_computer_name = "$env:computername"
 $local_path = "Temp - $tfs_computer_name"
 $tfs_local_path = "C:\$local_path"
-$tfs_automation_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/installers/Automation.Tfs.exe"
 $tfs_automation = "$tfs_local_path\Automation.Tfs.exe"
 
 Remove-Item -Recurse -Force $tfs_local_path

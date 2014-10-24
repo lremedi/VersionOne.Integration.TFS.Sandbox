@@ -1,7 +1,10 @@
+param (
+    $tfs_listener_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/installers/VersionOne.TFSListener.Installer.msi"
+)
 $tfs_computer_name = "$env:computername"
 $local_path = "Temp - $tfs_computer_name"
 $tfs_local_path = "C:\$local_path"
-$tfs_listener_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/installers/VersionOne.TFSListener.Installer.msi"
+
 $tfs_listener = "$tfs_local_path\VersionOne.TFSListener.Installer.msi"
 $tfs_listener_log = "$tfs_local_path\VersionOne.TFSListener.Installer.log"
 

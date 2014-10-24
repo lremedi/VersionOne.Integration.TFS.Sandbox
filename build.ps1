@@ -1,9 +1,9 @@
 Param(
-[string]$vm_username,
-[string]$vm_password,
-[string]$vm_name,
-[string]$azure_service_name,
-[string]$new
+    [string]$vm_username,
+    [string]$vm_password,
+    [string]$vm_name,
+    [string]$azure_service_name,
+    [string]$new
 )
 
 Write-Host "Starting execution at:"(Get-Date -Format g)
@@ -38,16 +38,40 @@ $boxstarterVM | Install-BoxstarterPackage -Package tfsexpress.build -Credential 
 $boxstarterVM | Install-BoxstarterPackage -Package VisualStudio2013Professional -Credential $cred
 $boxstarterVM | Install-BoxstarterPackage -Package git -Credential $cred
 $boxstarterVM | Install-BoxstarterPackage -Package tfs2013powertools -Credential $cred
+
 Write-Host "Restarting VM after tool installation..."
 Restart-AzureVM -ServiceName $azure_service_name -Name $vm_name
-Write-Host "Setting sample data..."
-Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step1"
-Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step2"
-Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step3"
 
+Write-Host "Setting sample data..."
+#$script_path_step1 = 'New-TeamProject.ps1'
+$CollectionUri = "http://localhost:8080/tfs/DefaultCollection"
+$ProjectName = "AnotherTeamProject"
+$ProcessTemplateName = "MSF for Agile Software Development 2013"
+Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step1" `
+@($$CollectionUri,$ProjectName,$ProcessTemplateName)
+
+#$script_path_step2 = 'New-SampleData.ps1'
+$tfs_team_project_collection = "http://localhost:8080/tfs"
+$tfs_team_project = "AnotherTeamProject"
+$tfs_build_name = "Another Build"
+$tfs_build_description = "Build description."
+$tfs_workspace = "AnotherWorkspace"
+$tfs_git_repository = "https://github.com/lremedi/Automation.Tfs"
+$tfs_automation_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/installers/Automation.Tfs.exe"
+Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step2" `
+@($tfs_team_project_collection,$tfs_team_project, $tfs_build_name, $tfs_build_description, $tfs_workspace, $tfs_git_repository, $tfs_automation_remote)
+
+#$script_path_step3 = 'Install-TfsListener.ps1'
+$tfs_listener_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/installers/VersionOne.TFSListener.Installer.msi"
+Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step3" `
+@($tfs_listener_remote)
+
+#$script_path_step4 = 'Configure-TfsListener.ps1'
 $Url="https://www14.v1host.com/v1sdktesting/"
-$Password="remote"
 $UserName="remote"
-Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step4" @($azure_service_name,$Url,$Password,$UserName)
+$Password="remote"
+$TfsUrl="http://$azure_service_name.cloudapp.net:8080/tfs/DefaultCollection/"
+Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step4" `
+@($azure_service_name,$Url,$UserName,$Password,$TfsUrl,$vm_username,$vm_password)
 
 Write-Host "Ending execution at:"(Get-Date -Format g)

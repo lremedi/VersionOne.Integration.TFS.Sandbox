@@ -1,24 +1,24 @@
 #servicetfs20132.cloudapp.net
 Param(
-$azure_service_name="servicetfs20132",
-$Url="https://www14.v1host.com/v1sdktesting/",
-$Password="remote",
-$UserName="remote",
-$TfsUrl="http://$azure_service_name.cloudapp.net:8080/tfs/DefaultCollection/",
-$TfsUser="v1deploy",
-$TfsPassword="Versi0n1.c26nu",
-$IsWindowsIntegratedSecurity="False",
-$DebugMode="True",
-$TfsWorkItemRegex="[A-Z]{1,2}-[0-9]+",
-$ProxyIsEnabled="False",
-$ProxyUrl="",
-$ProxyUserName="",
-$ProxyPassword="",
-$ProxyDomain="",
-$BaseListenerUrl="http://$azure_service_name.cloudapp.net:9090/",
-$tfs_listener_url = "http://$azure_service_name.cloudapp.net:9090/service.svc",
-$tfs_team_project_collection = "http://$azure_service_name.cloudapp.net:8080/tfs",
-$tfs_event_tag = "VersionOneTFSServer"
+    $azure_service_name="servicetfs20132",
+    $Url="https://www14.v1host.com/v1sdktesting/",
+    $UserName="remote",
+    $Password="remote",
+    $TfsUrl="http://$azure_service_name.cloudapp.net:8080/tfs/DefaultCollection/",
+    $TfsUser="v1deploy",
+    $TfsPassword="Versi0n1.c26nu",
+    $IsWindowsIntegratedSecurity="False",
+    $DebugMode="True",
+    $TfsWorkItemRegex="[A-Z]{1,2}-[0-9]+",
+    $ProxyIsEnabled="False",
+    $ProxyUrl="",
+    $ProxyUserName="",
+    $ProxyPassword="",
+    $ProxyDomain="",
+    $BaseListenerUrl="http://$azure_service_name.cloudapp.net:9090/",
+    $tfs_listener_url = "http://$azure_service_name.cloudapp.net:9090/service.svc",
+    $tfs_team_project_collection = "http://$azure_service_name.cloudapp.net:8080/tfs",
+    $tfs_event_tag = "VersionOneTFSServer"
 )
 
 $file =((${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0])+"\VersionOne\TFSListener\web\App_Data\settings.ini"
