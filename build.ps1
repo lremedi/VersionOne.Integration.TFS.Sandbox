@@ -48,7 +48,7 @@ $CollectionUri = "http://localhost:8080/tfs/DefaultCollection"
 $ProjectName = "AnotherTeamProject"
 $ProcessTemplateName = "MSF for Agile Software Development 2013"
 Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step1" `
-@($$CollectionUri,$ProjectName,$ProcessTemplateName)
+@($CollectionUri,$ProjectName,$ProcessTemplateName)
 
 #$script_path_step2 = 'New-SampleData.ps1'
 $tfs_team_project_collection = "http://localhost:8080/tfs"
