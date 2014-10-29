@@ -39,8 +39,13 @@ V1_ProxyPassword|$ProxyPassword
 V1_ProxyDomain|$ProxyDomain
 V1_BaseListenerUrl|$BaseListenerUrl"
 
+$tfs_core = ((${env:ProgramFiles(x86)}, ${env:ProgramFiles} -ne $null)[0])+"\VersionOne\TFSListener\VersionOne.Integration.Tfs.Core.dll"
+
+Add-Type -Path $tfs_core
+$protected_content = [VersionOne.Integration.Tfs.Core.Security.ProtectData]::Protect($content)
+
 write-host "Writing settings file"
-out-file -filepath "$file" -inputobject $content -encoding UTF8
+out-file -filepath "$file" -inputobject $protected_content -encoding UTF8
 
 $tfs_computer_name = "$env:computername"
 $local_path = "Temp - $tfs_computer_name"
