@@ -62,7 +62,7 @@ Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "
 @($tfs_team_project_collection,$tfs_team_project, $tfs_build_name, $tfs_build_description, $tfs_workspace, $tfs_git_repository, $tfs_automation_remote)
 
 #$script_path_step3 = 'Install-TfsListener.ps1'
-$tfs_listener_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/installers/VersionOne.TFSListener.Installer.msi"
+$tfs_listener_remote = "https://v1integrations.blob.core.windows.net/downloads/VersionOne.Integration.Tfs.Listener.Installer.msi"
 Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step3" `
 @($tfs_listener_remote)
 
