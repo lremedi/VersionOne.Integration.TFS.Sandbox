@@ -3,7 +3,8 @@ Param(
     [string]$vm_password,
     [string]$vm_name,
     [string]$azure_service_name,
-    [string]$new
+    [string]$new,
+    [string]$installTfsIntegration
 )
 
 Write-Host "Starting execution at:"(Get-Date -Format g)
@@ -61,17 +62,19 @@ $tfs_automation_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/
 Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step2" `
 @($tfs_team_project_collection,$tfs_team_project, $tfs_build_name, $tfs_build_description, $tfs_workspace, $tfs_git_repository, $tfs_automation_remote)
 
-#$script_path_step3 = 'Install-TfsListener.ps1'
-$tfs_listener_remote = "https://v1integrations.blob.core.windows.net/downloads/VersionOne.Integration.Tfs.Listener.Installer.msi"
-Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step3" `
-@($tfs_listener_remote)
+if ($installTfsIntegration -eq "true"){
+    #$script_path_step3 = 'Install-TfsListener.ps1'
+    $tfs_listener_remote = "https://v1integrations.blob.core.windows.net/downloads/VersionOne.Integration.Tfs.Listener.Installer.msi"
+    Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step3" `
+    @($tfs_listener_remote)
 
-#$script_path_step4 = 'Configure-TfsListener.ps1'
-$Url="https://www14.v1host.com/v1sdktesting/"
-$UserName="remote"
-$Password="remote"
-$TfsUrl="http://$azure_service_name.cloudapp.net:8080/tfs/DefaultCollection/"
-Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step4" `
-@($azure_service_name,$Url,$UserName,$Password,$TfsUrl,$vm_username,$vm_password)
+    #$script_path_step4 = 'Configure-TfsListener.ps1'
+    $Url="https://www14.v1host.com/v1sdktesting/"
+    $UserName="remote"
+    $Password="remote"
+    $TfsUrl="http://$azure_service_name.cloudapp.net:8080/tfs/DefaultCollection/"
+    Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step4" `
+    @($azure_service_name,$Url,$UserName,$Password,$TfsUrl,$vm_username,$vm_password)
+}
 
 Write-Host "Ending execution at:"(Get-Date -Format g)
