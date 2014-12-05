@@ -4,7 +4,7 @@ Param(
     [string]$vm_name,
     [string]$azure_service_name,
     [string]$new,
-    [string]$installTfsIntegration
+    [string]$install_tfs_integration
 )
 
 Write-Host "Starting execution at:"(Get-Date -Format g)
@@ -62,7 +62,7 @@ $tfs_automation_remote = "https://portalvhdsw36vjbsgqb26p.blob.core.windows.net/
 Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step2" `
 @($tfs_team_project_collection,$tfs_team_project, $tfs_build_name, $tfs_build_description, $tfs_workspace, $tfs_git_repository, $tfs_automation_remote)
 
-if ($installTfsIntegration -eq "true"){
+if ($install_tfs_integration -eq "true"){
     #$script_path_step3 = 'Install-TfsListener.ps1'
     $tfs_listener_remote = "https://v1integrations.blob.core.windows.net/downloads/VersionOne.Integration.Tfs.Listener.Installer.msi"
     Invoke-RmtAzure "$vm_username" "$vm_password" "$vm_name" "$azure_service_name" "$script_path_step3" `
