@@ -13,7 +13,8 @@ $secpasswd = ConvertTo-SecureString $vm_password -AsPlainText -Force
 $cred=New-Object System.Management.Automation.PSCredential ($vm_username, $secpasswd)
 
 if ($new -eq "true"){
-    $image_name = "sql2012exp-20140925-13769"
+    #$image_name = "sql2012exp-20140925-13769"
+    $image_name = "sqlftstemplate-202605-71354"
     Write-Host 'Removing previous VM'
     Remove-AzureVM -ServiceName $azure_service_name -Name $vm_name -DeleteVHD
     Remove-AzureService -ServiceName $azure_service_name -Force
@@ -36,7 +37,7 @@ $script_path_step4 = 'Configure-TfsListener.ps1'
 $boxstarterVM = Enable-BoxstarterVM -Provider azure -CloudServiceName $azure_service_name -VMName $vm_name -Credential $cred
 $boxstarterVM | Install-BoxstarterPackage -Package tfsexpress.standard -Credential $cred
 $boxstarterVM | Install-BoxstarterPackage -Package tfsexpress.build -Credential $cred
-$boxstarterVM | Install-BoxstarterPackage -Package VisualStudio2013Professional -Credential $cred
+$boxstarterVM | Install-BoxstarterPackage -Package visualstudiocommunity2013  -Credential $cred
 $boxstarterVM | Install-BoxstarterPackage -Package git -Credential $cred
 $boxstarterVM | Install-BoxstarterPackage -Package tfs2013powertools -Credential $cred
 

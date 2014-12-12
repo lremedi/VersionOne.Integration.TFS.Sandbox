@@ -1,7 +1,7 @@
 param (
     $CollectionUri = "http://localhost:8080/tfs/DefaultCollection",
     $ProjectName = "AnotherTeamProject",
-    $ProcessTemplateName = "MSF for Agile Software Development 2013"
+    $ProcessTemplateName = "MSF for Agile Software Development 2013.4"
 )
  
 if (-not $Env:TFSPowerToolDir) {
